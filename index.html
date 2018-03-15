@@ -1,39 +1,187 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Australia</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+
+
+
+		<link rel="shortcut icon"  href="favicon.png">
+
+
+    <title>Hello, world!</title>
     <script type="text/javascript" src="d3.v2.js"></script>
     <style type="text/css">
+@import url('https://fonts.googleapis.com/css?family=Belgrano');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+	margin: 0;
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
+h1 {
+  margin: 0;
+	font: inherit;
+  text-transform: uppercase;
+}
+
+h1, h2 {
+  font-family: 'Belgrano', serif;
+  text-align: center;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 #states path {
   stroke: #fff;
 }
+svg .cities {
+  fill: black;
+  opacity: 0.7;
+}
+.labels {
+  fill: black;
+  font-size: 30px;
+  cursor: pointer;
+  text-shadow: 0 4px 4px rgba(255, 255, 255, 0.5);
+  background: blue;
+}
+.labels a {
+  fill: inherit;
+}
+.labels:hover {
+  text-decoration: underline;
+  fill: blue;
+}
+main {
+  margin: 30px auto;
+  width: 800px;
+  max-width: 100%;
+  display: flex;
+    align-items: center;
+      flex-flow: column;
+}
+header {
+	box-shadow: 0 4px 4px #ccc;
+  background: rgb(33, 146, 32);
+  color: white;
+}
+header, footer {
+  font-size: 24px;
+	line-height: 48px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1ch;
+}
+header ul {
+  list-style: none;
+  display: flex;
+}
+header li {
+  
+}
+header li a {
+  text-decoration: none;
+  padding: 0 1ch;
+  font-size: 16px;
+  display: block;
+    color: white;
+}
+header li a:hover {
+  text-decoration: underline;
+  background-color: mintcream;
+  color: rgb(33, 146, 32);
+}
+
+  h1.small {
+    display: none;
+  }
+
+  footer {
+    justify-content: space-around;
+    background: #eee;
+      color: #888;
+        font-size: 14px;
+  }
+
+@media (max-width: 600px) {
+  h1.small {
+    display: block;
+  }
+  h1.big {
+    display: none;
+  }
+  svg {
+    transform: scale(0.75);
+    margin: -10% 0;
+  }
+}
+
     </style>
   </head>
+
   <body>
-  <h1>Australian States coloured by Awesomeness</h1>
-    <script type="text/javascript">
-awesomeness = {"New South Wales":8, // + it's NSW, - legacy of NSW Labor 
-	"Victoria":6, // + Architecture, Food, - it's not NSW
-	"Queensland":3, // + Beaches, - it's QLD, Wally Lewis
-	"South Australia":7, // + Friends, Moonarie, - it's not NSW
-	"Western Australia":4, // + Beautiful Coastline, Mining Revenues, - delusions of seccession
-	"Tasmania": 6, // + table mountain, cheese, - weather
-	"Northern Territory": 7, // + arnhem land, cumulo nimbus clouds over Darwin, - mosquitoes
-	"Other Territories":5, // I'm sure they're ok
+
+<header>
+	<h1 class="big">Girls' Programming Network</h1>
+  <h1 class="small">GPN</h1>
+  <ul>
+    <li><a href="#">Sydney</a></li>
+    <li><a href="#">Cairns</a></li>
+    <li><a href="#">Canberra</a></li>
+    <li><a href="#">Mackay</a></li>
+    <li><a href="#">Perth</a></li>
+  </ul>
+</header>
+
+<main>
+  <div id="map"></div>
+	<img src="GPN_logo.png" alt="GPN Logo">
+</main>
+
+<footer>
+  Girls' Programming Network, University of Sydney
+</footer>
+
+<script type="text/javascript">
+awesomeness = {
+  "New South Wales":4,
+	"Victoria":1,
+	"Queensland":5,
+	"South Australia":2,
+	"Western Australia":3,
+	"Tasmania": 2,
+	"Northern Territory": 1,
+	"Other Territories":8,
   };
-var w = 960,
-    h = 500;
+var w = 600, h = 440;
 var z = d3.scale.category10();
 var fill = d3.scale.log()
     .domain(d3.extent(d3.values(awesomeness)))
-    .range(["brown", "steelblue"]);
+    .range(["lightgreen", "green"]);
 var projection = d3.geo.azimuthal()
     .origin([135, -26])
-		.translate([250,180])
+		.translate([280,200])
     .scale(700);
 var path = d3.geo.path()
     .projection(projection);
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#map").append("svg")
     .attr("width", w)
     .attr("height", h);
 var states = svg.append("g")
@@ -46,16 +194,76 @@ d3.json("../data/au-states.geojson", function(collection) {
          return fill(awesomeness[(d.properties["STATE_NAME"])]);
        })
       .attr("d", path);
+
+
+    // probably the only thing needed here is "geometry" and the latlong
+    var gpnData = [
+    { "type": "Feature", 
+      "id": 0, 
+      "properties": { 
+        "HREF": "https://sites.google.com/site/girlsprogrammingnetwork/", 
+        "NAME": "Sydney", 
+      }, 
+      "geometry": { 
+        "type": "Point", 
+        "coordinates": [ 151, -33 ] } },
+    { "type": "Feature", 
+      "id": 1, 
+      "properties": { 
+        "HREF": "http://www.ecu.edu.au/schools/science/engagement-activity/girls-programming-network", 
+        "NAME": "Perth", 
+      }, 
+      "geometry": { 
+        "type": "Point", 
+        "coordinates": [ 115.8, -31.95 ] } },
+    { "type": "Feature", 
+      "id": 2, 
+      "properties": { 
+        "HREF": "https://canberragpn.github.io/", 
+        "NAME": "Canberra", 
+      }, 
+      "geometry": { 
+        "type": "Point", 
+        "coordinates": [ 149.1, -35.3 ] } },
+    { "type": "Feature", 
+      "id": 3, 
+      "properties": { 
+        "HREF": "https://cairnssde.eq.edu.au/Calendarandnews/News/Pages/Girls-Programming-Network.aspx", 
+        "NAME": "Cairns", 
+      }, 
+      "geometry": { 
+        "type": "Point", 
+        "coordinates": [ 145.7, -16.9 ] } },
+    { "type": "Feature", 
+      "id": 3, 
+      "properties": { 
+        "HREF": "https://sites.google.com/site/girlsprogrammingnetwork/gpn-mackay",
+        "NAME": "Mackay", 
+      }, 
+      "geometry": { 
+        "type": "Point", 
+        "coordinates": [ 149.2, -21.1 ] } },
+    ];
+
+   svg.selectAll('.cities')
+      .data(gpnData)
+      .enter()
+      .append('path')
+      .attr('d', path.pointRadius(5))
+      .attr('class', 'cities');
+
+	 svg.selectAll('.labels')
+      .data(gpnData).enter().append('text')
+      .attr('transform', function(d) {
+        return 'translate(' + projection(d.geometry.coordinates) + ')';
+      })
+      .attr('dy', 8) // vert offset
+      .attr('dx', 8) // horizontal offset
+      .attr('class', 'labels')
+        .append('a')
+        .attr("xlink:href", (d) => d.properties.HREF)
+        .text((d) => d.properties.NAME);
 });
 </script>
-<script src="https://gist.github.com/edwinsteele/08e1ef7c4326c2e06934.js"></script>
-
-I've done this page for a few reasons:
-<ul>
-<li>I wanted to see a d3 map using json maps that showed something other than the USA</li>
-<li>I wanted to use colour ranges</li>
-<li></li>
-
-</ul>
-  </body>
+</body>
 </html>
