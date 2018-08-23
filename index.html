@@ -133,6 +133,19 @@ header li a:hover {
   }
 }
 
+.sign-up {
+  border-radius: 28px;
+  color: #ffffff;
+  font-size: 20px;
+  background: #8AC007;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+.sign-up:hover {
+  background: #a7db25;
+  text-decoration: none;
+}
+
     </style>
   </head>
 
@@ -142,7 +155,7 @@ header li a:hover {
 	<h1 class="big">Girls' Programming Network</h1>
   <h1 class="small">GPN</h1>
   <ul>
-    <li><a href="https://sites.google.com/site/girlsprogrammingnetwork/">Sydney</a></li>
+    <li><a href="http://ncss.edu.au/girls-programming-network">Sydney</a></li>
     <li><a href="https://cairnssde.eq.edu.au/Calendarandnews/News/Pages/Girls-Programming-Network.aspx">Cairns</a></li>
     <li><a href="https://canberragpn.github.io">Canberra</a></li>
     <li><a href="https://sites.google.com/site/girlsprogrammingnetwork/gpn-mackay">Mackay</a></li>
@@ -151,6 +164,7 @@ header li a:hover {
 </header>
 
 <main>
+  <a class="sign-up" href="https://goo.gl/forms/Ru8luKduVfpgreJ43">Sign up to be a tutor</a>
   <div id="map"></div>
 	<img src="GPN_logo.png" alt="GPN Logo">
 </main>
@@ -201,7 +215,7 @@ d3.json("../data/au-states.geojson", function(collection) {
     { "type": "Feature", 
       "id": 0, 
       "properties": { 
-        "HREF": "https://sites.google.com/site/girlsprogrammingnetwork/", 
+        "HREF": "http://ncss.edu.au/girls-programming-network", 
         "NAME": "Sydney", 
       }, 
       "geometry": { 
